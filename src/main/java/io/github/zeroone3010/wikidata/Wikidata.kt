@@ -5,13 +5,17 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class Wikidata(private val bearerToken: String) {
+private const val BASE_URL = "https://www.wikidata.org/w/rest.php/wikibase/v0/entities/"
+
+class Wikidata(private val bearerToken: String,
+    private val baseUrlSupplier: () -> String = {BASE_URL}) {
+
     private val objectMapper: ObjectMapper = ObjectMapper()
     private val client = OkHttpClient()
 
     fun getItem(itemId: ItemId): Item? {
         val request = Request.Builder()
-            .url("https://www.wikidata.org/w/rest.php/wikibase/v0/entities/items/$itemId")
+            .url("${baseUrlSupplier()}items/$itemId")
             .addHeader("Authorization", "Bearer $bearerToken")
             .build()
 
@@ -32,7 +36,7 @@ class Wikidata(private val bearerToken: String) {
 
     fun getProperty(propertyId: PropertyId): Property? {
         val request = Request.Builder()
-            .url("https://www.wikidata.org/w/rest.php/wikibase/v0/entities/properties/$propertyId")
+            .url("${baseUrlSupplier()}properties/$propertyId")
             .addHeader("Authorization", "Bearer $bearerToken")
             .build()
 
