@@ -48,8 +48,14 @@ class WikidataTest : StringSpec({
         result!!.statements["P10565"]!![0]!!.qualifiers shouldBe emptyArray<String>()
         result!!.statements["P10565"]!![0]!!.rank shouldBe "normal"
         result!!.statements["P10565"]!![0]!!.references shouldBe emptyArray<Reference>()
-        result!!.statements["P10565"]!![0]!!.value!!.content shouldBe "381457"
-        result!!.statements["P10565"]!![0]!!.value!!.type shouldBe "value"
+        result!!.statements["P10565"]!![0]!!.value.content shouldBe "381457"
+        result!!.statements["P10565"]!![0]!!.value.type shouldBe "value"
+
+        result!!.statements["P1082"]!![0]!!.qualifiers[0].value.content shouldBe mapOf(
+            "calendarmodel" to "http://www.wikidata.org/entity/Q1985727",
+            "precision" to 11,
+            "time" to "+2016-01-01T00:00:00Z"
+        )
 
         result!!.type shouldBe "item"
 
